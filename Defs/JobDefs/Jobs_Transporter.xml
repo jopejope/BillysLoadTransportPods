@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+  <JobDef>
+    <defName>BillyTransportHaulToTransporter</defName>
+    <driverClass>BillysLoadTransport.JobDriver_HaulToTransporter</driverClass>
+    <reportString>hauling TargetA.</reportString>
+  </JobDef>
+</Defs>

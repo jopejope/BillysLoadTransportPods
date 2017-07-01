@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<Patch>
+	<Operation Class="PatchOperationReplace">
+	  <xpath>/Defs/DutyDef[defName="LoadAndEnterTransporters"]/thinkNode[@Class="ThinkNode_Priority"]/subNodes/li[@Class="JobGiver_LoadTransporters"]</xpath>
+	  <value>
+	  	<!-- replaces JobGiver_LoadTransporters with our version -->
+		<li Class="BillysLoadTransport.JobGiver_BillyLoadTransporters"/>
+	  </value>
+	</Operation> 
+	<Operation Class="PatchOperationReplace">
+		  <xpath>/WorkGivers/WorkGiverDef[defName="LoadTransporters"]/giverClass</xpath>
+		  <value>
+		  	<!-- replaces WorkGiver_LoadTransporters with our version -->
+			<giverClass>BillysLoadTransport.WorkGiver_BillyLoadTransporters</giverClass>
+		  </value>
+	</Operation> 
+</Patch>
