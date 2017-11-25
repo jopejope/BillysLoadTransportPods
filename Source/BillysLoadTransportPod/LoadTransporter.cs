@@ -167,7 +167,7 @@ namespace BillysLoadTransport
         {
             get
             {
-                return base.CurJob.GetTarget(TargetIndex.A).Thing;
+                return job.GetTarget(TargetIndex.A).Thing;
             }
         }
 
@@ -175,7 +175,7 @@ namespace BillysLoadTransport
         {
             get
             {
-                return base.CurJob.GetTarget(TargetIndex.B).Thing;
+                return job.GetTarget(TargetIndex.B).Thing;
             }
         }
 
@@ -200,6 +200,12 @@ namespace BillysLoadTransport
             }
         }
 
+        public override bool TryMakePreToilReservations()
+        {
+            pawn.ReserveAsManyAsPossible(job.GetTargetQueue(TargetIndex.A), job, 1, -1, null);
+            return pawn.Reserve(job.GetTarget(TargetIndex.A), job, 1, -1, null);
+        }
+
         [DebuggerHidden]
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
@@ -210,9 +216,9 @@ namespace BillysLoadTransport
 			this.FailOnDestroyedOrNull(TargetIndex.A);
 			this.FailOnDestroyedNullOrForbidden(TargetIndex.B);
 			this.FailOn(() => TransporterUtility.WasLoadingCanceled(this.Transporter));
-            Toil reserve = Toils_Reserve.Reserve(TargetIndex.A, 1, -1, null);
+            Toil reserve = Toils_Reserve.Reserve(TargetIndex.A, 1, -1, null).FailOnDespawnedOrNull(TargetIndex.A);
             yield return reserve;
-			yield return Toils_Reserve.ReserveQueue(TargetIndex.A, 1, -1, null);
+			//yield return Toils_Reserve.ReserveQueue(TargetIndex.A, 1, -1, null);
 			Toil getToHaulTarget = Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.ClosestTouch).FailOnSomeonePhysicallyInteracting(TargetIndex.A);
 			yield return getToHaulTarget;
             yield return DetermineNumToHaul();
@@ -246,7 +252,7 @@ namespace BillysLoadTransport
                     }
                     else
                     {
-                        base.CurJob.count = num;
+                        job.count = num;
                     }
                 },
                 defaultCompleteMode = ToilCompleteMode.Instant,
@@ -308,6 +314,11 @@ namespace BillysLoadTransport
             {
                 return PathEndMode.Touch;
             }
+        }
+
+        public override Danger MaxPathDanger(Pawn pawn)
+        {
+            return Danger.Deadly;
         }
 
         public override bool HasJobOnThing(Pawn pawn, Thing t, bool forced = false)

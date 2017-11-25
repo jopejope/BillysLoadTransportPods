@@ -9,7 +9,7 @@
 	  </value>
 	</Operation> 
 	<Operation Class="PatchOperationReplace">
-		  <xpath>/WorkGivers/WorkGiverDef[defName="LoadTransporters"]/giverClass</xpath>
+		  <xpath>/Defs/WorkGiverDef[defName="LoadTransporters"]/giverClass</xpath>
 		  <value>
 		  	<!-- replaces WorkGiver_LoadTransporters with our version -->
 			<giverClass>BillysLoadTransport.WorkGiver_BillyLoadTransporters</giverClass>
